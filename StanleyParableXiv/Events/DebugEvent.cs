@@ -17,13 +17,13 @@ public class DebugEvent : IDisposable
     public DebugEvent()
     {
         DalamudService.Framework.Update += OnFrameworkUpdate;
-        DalamudService.GameNetwork.NetworkMessage += OnGameNetworkMessage;
+        // DalamudService.GameNetwork.NetworkMessage += OnGameNetworkMessage;
     }
 
     public void Dispose()
     {
         DalamudService.Framework.Update -= OnFrameworkUpdate;
-        DalamudService.GameNetwork.NetworkMessage -= OnGameNetworkMessage;
+        // DalamudService.GameNetwork.NetworkMessage -= OnGameNetworkMessage;
         
         GC.SuppressFinalize(this);
     }

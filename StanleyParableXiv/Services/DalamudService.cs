@@ -33,9 +33,6 @@ public class DalamudService
     public static IGameInteropProvider GameInteropProvider { get; private set; } = null!;
     
     [PluginService]
-    public static IGameNetwork GameNetwork { get; private set; } = null!;
-    
-    [PluginService]
     public static IPluginLog Log { get; private set; } = null!;
     
     [PluginService]

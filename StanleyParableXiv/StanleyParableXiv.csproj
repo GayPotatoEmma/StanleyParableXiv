@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Dalamud.NET.Sdk/12.0.2">
+<Project Sdk="Dalamud.NET.Sdk/13.0.0">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework> <!-- Requires override due to NAudio trying to add WinForms shit -->
   </PropertyGroup>
@@ -7,7 +7,7 @@
   <PropertyGroup>
     <Authors>rekyuu</Authors>
     <Company>rekyuu</Company>
-    <Version>3.3.0.0</Version>
+    <Version>4.0.0.0</Version>
     <Description>Witty commentary to the brilliant things you do.</Description>
     <Copyright>rekyuu</Copyright>
     <PackageProjectUrl>https://github.com/rekyuu/StanleyParableXiv</PackageProjectUrl>
@@ -20,6 +20,6 @@
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
-    <PackageReference Update="DalamudPackager" Version="12.0.0" />
+    <PackageReference Update="DalamudPackager" Version="13.0.0" />
   </ItemGroup>
 </Project>

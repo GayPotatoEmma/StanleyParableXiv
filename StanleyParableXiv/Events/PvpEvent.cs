@@ -43,7 +43,7 @@ public class PvpEvent : IDisposable
         DalamudService.ClientState.EnterPvP += OnEnterPvP;
         DalamudService.ClientState.LeavePvP += OnLeavePvp;
         DalamudService.ChatGui.ChatMessage += OnChatMessage;
-        DalamudService.GameNetwork.NetworkMessage += OnGameNetworkMessage;
+        // DalamudService.GameNetwork.NetworkMessage += OnGameNetworkMessage;
         TerritoryService.Instance.TerritoryChanged += OnTerritoryChanged;
     }
 
@@ -52,7 +52,7 @@ public class PvpEvent : IDisposable
         DalamudService.ClientState.EnterPvP -= OnEnterPvP;
         DalamudService.ClientState.LeavePvP -= OnLeavePvp;
         DalamudService.ChatGui.ChatMessage -= OnChatMessage;
-        DalamudService.GameNetwork.NetworkMessage -= OnGameNetworkMessage;
+        // DalamudService.GameNetwork.NetworkMessage -= OnGameNetworkMessage;
         TerritoryService.Instance.TerritoryChanged -= OnTerritoryChanged;
 
         GC.SuppressFinalize(this);

@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Windowing;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 using StanleyParableXiv.Services;
 using StanleyParableXiv.Utility;
 
@@ -324,19 +324,21 @@ public class ConfigurationWindow : Window, IDisposable
                 ImGui.PushID("PvP");
                 if (ImGui.CollapsingHeader("PvP"))
                 {
-                    bool enablePvpCountdownEvent = Configuration.Instance.EnablePvpCountdownStartEvent;
-                    if (ImGui.Checkbox("Countdown Start", ref enablePvpCountdownEvent))
-                    {
-                        Configuration.Instance.EnablePvpCountdownStartEvent = enablePvpCountdownEvent;
-                        Configuration.Instance.Save();
-                    }
-                    
-                    bool enablePvpCountdown10Event = Configuration.Instance.EnablePvpCountdown10Event;
-                    if (ImGui.Checkbox("10 Seconds Remaining", ref enablePvpCountdown10Event))
-                    {
-                        Configuration.Instance.EnablePvpCountdown10Event = enablePvpCountdown10Event;
-                        Configuration.Instance.Save();
-                    }
+                    DisabledDueToApiChange("Countdown Start");
+                    // bool enablePvpCountdownEvent = Configuration.Instance.EnablePvpCountdownStartEvent;
+                    // if (ImGui.Checkbox("Countdown Start", ref enablePvpCountdownEvent))
+                    // {
+                    //     Configuration.Instance.EnablePvpCountdownStartEvent = enablePvpCountdownEvent;
+                    //     Configuration.Instance.Save();
+                    // }
+
+                    DisabledDueToApiChange("10 Seconds Remaining");
+                    // bool enablePvpCountdown10Event = Configuration.Instance.EnablePvpCountdown10Event;
+                    // if (ImGui.Checkbox("10 Seconds Remaining", ref enablePvpCountdown10Event))
+                    // {
+                    //     Configuration.Instance.EnablePvpCountdown10Event = enablePvpCountdown10Event;
+                    //     Configuration.Instance.Save();
+                    // }
                     
                     ImGui.Separator();
                     
@@ -376,20 +378,22 @@ public class ConfigurationWindow : Window, IDisposable
                         Configuration.Instance.EnablePvpPrepareEvent = enablePrepare;
                         Configuration.Instance.Save();
                     }
-                    
-                    bool enableWin = Configuration.Instance.EnablePvpWinEvent;
-                    if (ImGui.Checkbox("Win", ref enableWin))
-                    {
-                        Configuration.Instance.EnablePvpWinEvent = enableWin;
-                        Configuration.Instance.Save();
-                    }
-                    
-                    bool enableLoss = Configuration.Instance.EnablePvpLossEvent;
-                    if (ImGui.Checkbox("Loss", ref enableLoss))
-                    {
-                        Configuration.Instance.EnablePvpLossEvent = enableLoss;
-                        Configuration.Instance.Save();
-                    }
+
+                    DisabledDueToApiChange("Win");
+                    // bool enableWin = Configuration.Instance.EnablePvpWinEvent;
+                    // if (ImGui.Checkbox("Win", ref enableWin))
+                    // {
+                    //     Configuration.Instance.EnablePvpWinEvent = enableWin;
+                    //     Configuration.Instance.Save();
+                    // }
+
+                    DisabledDueToApiChange("Loss");
+                    // bool enableLoss = Configuration.Instance.EnablePvpLossEvent;
+                    // if (ImGui.Checkbox("Loss", ref enableLoss))
+                    // {
+                    //     Configuration.Instance.EnablePvpLossEvent = enableLoss;
+                    //     Configuration.Instance.Save();
+                    // }
                 }
                 ImGui.PopID();
 
@@ -527,5 +531,15 @@ public class ConfigurationWindow : Window, IDisposable
         }
         
         ImGui.EndTabBar();
+    }
+
+    private void DisabledDueToApiChange(string configName)
+    {
+        ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 0.5f);
+        bool configOption = false;
+        ImGui.Checkbox(configName, ref configOption);
+        ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 1.0f);
+
+        if (ImGui.IsItemHovered()) ImGui.SetTooltip("Disabled due to API change");
     }
 }
