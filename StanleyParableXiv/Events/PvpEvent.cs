@@ -143,7 +143,7 @@ public class PvpEvent : IDisposable
             case (XivChatType)2874 when playerPayloads.Length == 1:
             {
                 PlayerPayload? otherPlayer = playerPayloads[0];
-                IPlayerCharacter? localPlayer = DalamudService.ClientState.LocalPlayer;
+                IPlayerCharacter? localPlayer = DalamudService.ObjectTable.LocalPlayer;
 
                 if (otherPlayer == null || localPlayer == null) return;
 

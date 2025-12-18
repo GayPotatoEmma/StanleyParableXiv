@@ -27,7 +27,7 @@ public static class DalamudUtility
     /// <returns>The party member as a player character object.</returns>
     public static IPlayerCharacter? GetPlayerCharacterFromPartyMember(IPartyMember partyMember)
     {
-        uint objId = partyMember.ObjectId;
+        uint objId = partyMember.EntityId;
         IGameObject? obj = DalamudService.ObjectTable.SearchById(objId);
             
         if (obj?.GetType() == typeof(IPlayerCharacter)) return (obj as IPlayerCharacter)!;

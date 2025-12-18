@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Dalamud.NET.Sdk/13.0.0">
+<Project Sdk="Dalamud.NET.Sdk/14.0.1">
+    
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework> <!-- Requires override due to NAudio trying to add WinForms shit -->
-  </PropertyGroup>
-  
-  <PropertyGroup>
-    <Authors>rekyuu</Authors>
-    <Company>rekyuu</Company>
-    <Version>4.0.0.0</Version>
+    <Author>rekyuu, gaypotatoemma</Author>
+    <Name>Stanley Parable XIV</Name>
+    <InternalName>StanleyParableXiv</InternalName>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <Punchline>Witty commentary to the brilliant things you do.</Punchline>
     <Description>Witty commentary to the brilliant things you do.</Description>
-    <Copyright>rekyuu</Copyright>
-    <PackageProjectUrl>https://github.com/rekyuu/StanleyParableXiv</PackageProjectUrl>
-    <RootNamespace>StanleyParableXiv</RootNamespace>
+    <RepoUrl>https://github.com/gaypotatoemma/StanleyParableXiv</RepoUrl>
+    <DalamudApiLevel>14</DalamudApiLevel>
   </PropertyGroup>
 
   <PropertyGroup>
-    <NoWarn>CA1416</NoWarn> <!-- Validate platform compatibility -->
+    <NoWarn>CA1416</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
-    <PackageReference Update="DalamudPackager" Version="13.0.0" />
   </ItemGroup>
 </Project>

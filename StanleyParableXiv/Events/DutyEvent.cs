@@ -136,8 +136,8 @@ public class DutyEvent : IDisposable
             string? partyMemberName = XivUtility.GetFullPlayerName(partyMember);
             if (string.IsNullOrEmpty(partyMemberName)) continue;
 
-            if (!_partyMembers.TryAdd(partyMemberName, partyMember.ObjectId)) continue;
-            DalamudService.Log.Debug("Added party member: [{Id}] {Name}", partyMember.ObjectId, partyMemberName);
+            if (!_partyMembers.TryAdd(partyMemberName, partyMember.EntityId)) continue;
+            DalamudService.Log.Debug("Added party member: [{Id}] {Name}", partyMember.EntityId, partyMemberName);
         }
 
         foreach (string partyMemberName in _partyMembers.Keys)
@@ -146,10 +146,10 @@ public class DutyEvent : IDisposable
                 .FirstOrDefault(x => XivUtility.GetFullPlayerName(x) == partyMemberName);
 
             // Status is unchanged, continue
-            if (_partyMembers[partyMemberName] == partyMember?.ObjectId) continue;
+            if (_partyMembers[partyMemberName] == partyMember?.EntityId) continue;
 
             // They likely left or disconnected
-            if (partyMember?.ObjectId == 0)
+            if (partyMember?.EntityId == 0)
             {
                 DalamudService.Log.Debug("Party member disconnected: [{Id}] {Name}", _partyMembers[partyMemberName], partyMemberName);
                 _partyMembers[partyMemberName] = 0;
@@ -162,7 +162,7 @@ public class DutyEvent : IDisposable
             // They likely reconnected
             else if (partyMember != null)
             {
-                _partyMembers[partyMemberName] = partyMember.ObjectId;
+                _partyMembers[partyMemberName] = partyMember.EntityId;
                 DalamudService.Log.Debug("Party member reconnected: [{Id}] {Name}", _partyMembers[partyMemberName], partyMemberName);
 
                 if (Configuration.Instance.EnableDutyPlayerReconnectedEvent)
