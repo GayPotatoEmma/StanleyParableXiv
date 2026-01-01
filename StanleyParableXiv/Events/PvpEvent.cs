@@ -27,6 +27,7 @@ public class PvpEvent : IDisposable
         431, // Seal Rock
         554, // The Fields of Glory
         888, // Onsal Hakair
+        1313, // Worqor Chirteh
     ];
 
     private readonly uint?[] _rivalWingsTerritoryIds =
