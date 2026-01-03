@@ -125,12 +125,12 @@ public class ConfigurationWindow : Window, IDisposable
                     "Bind to game volume"
                 };
 
-                if (ImGui.Combo("##BindToXivVolumeSource", ref bindToXivVolumeSourceState, bindToXivVolumeSourceOptions, 
+                if (ImGui.Combo("##BindToXivVolumeSource", ref bindToXivVolumeSourceState, bindToXivVolumeSourceOptions,
                         bindToXivVolumeSourceOptions.Length))
                 {
                     Configuration.Instance.BindToXivVolumeSource = bindToXivVolumeSourceState == 1;
                     Configuration.Instance.Save();
-                    
+
                     AudioService.Instance.UpdateVolume();
                 }
 
@@ -156,7 +156,7 @@ public class ConfigurationWindow : Window, IDisposable
 
                         AudioService.Instance.UpdateVolume();
                     }
-                    
+
                     int volumeBoostValue = (int)Configuration.Instance.XivVolumeSourceBoost;
                     if (ImGui.SliderInt("Volume Boost", ref volumeBoostValue, 0, 100))
                     {
@@ -177,14 +177,14 @@ public class ConfigurationWindow : Window, IDisposable
                         AudioService.Instance.UpdateVolume();
                     }
                 }
-                
+
                 string buttonText = "Play random voice line";
                 if (AssetsManager.IsUpdating)
                 {
                     buttonText = "Voice lines are currently downloading, please wait...";
                     ImGui.PushStyleVar(ImGuiStyleVar.Alpha, ImGui.GetStyle().Alpha * 0.5f);
                 }
-                    
+
                 if (ImGui.Button(buttonText))
                 {
                     if (!AssetsManager.IsUpdating)
@@ -192,13 +192,13 @@ public class ConfigurationWindow : Window, IDisposable
                         Random random = new();
                         Array events = Enum.GetValues(typeof(AudioEvent));
                         AudioEvent result = (AudioEvent)events.GetValue(random.Next(events.Length))!;
-                    
+
                         AudioService.Instance.PlayRandomSoundFromCategory(result);
                     }
                 }
-                    
+
                 if (AssetsManager.IsUpdating) ImGui.PopStyleVar();
-                
+
                 ImGui.EndTabItem();
             }
 
@@ -213,28 +213,28 @@ public class ConfigurationWindow : Window, IDisposable
                         Configuration.Instance.EnableLoginEvent = enableLogin;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableRespawn = Configuration.Instance.EnableRespawnEvent;
                     if (ImGui.Checkbox("Respawn", ref enableRespawn))
                     {
                         Configuration.Instance.EnableRespawnEvent = enableRespawn;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableSynthesisFailed = Configuration.Instance.EnableSynthesisFailedEvent;
                     if (ImGui.Checkbox("Synthesis Failed", ref enableSynthesisFailed))
                     {
                         Configuration.Instance.EnableSynthesisFailedEvent = enableSynthesisFailed;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableMarketBoardPurchase = Configuration.Instance.EnableMarketBoardPurchaseEvent;
                     if (ImGui.Checkbox("Market Board Purchase", ref enableMarketBoardPurchase))
                     {
                         Configuration.Instance.EnableMarketBoardPurchaseEvent = enableMarketBoardPurchase;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableAfkEvent = Configuration.Instance.EnableAfkEvent;
                     if (ImGui.Checkbox("AFK", ref enableAfkEvent))
                     {
@@ -253,7 +253,7 @@ public class ConfigurationWindow : Window, IDisposable
                         Configuration.Instance.EnableCountdownStartEvent = enableCountdownEvent;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableCountdown10Event = Configuration.Instance.EnableCountdown10Event;
                     if (ImGui.Checkbox("10 Seconds Remaining", ref enableCountdown10Event))
                     {
@@ -272,46 +272,46 @@ public class ConfigurationWindow : Window, IDisposable
                         Configuration.Instance.EnableDutyStartEvent = enableDutyStart;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableDutyComplete = Configuration.Instance.EnableDutyCompleteEvent;
                     if (ImGui.Checkbox("Duty Complete", ref enableDutyComplete))
                     {
                         Configuration.Instance.EnableDutyCompleteEvent = enableDutyComplete;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableDutyFailed = Configuration.Instance.EnableDutyFailedEvent;
                     if (ImGui.Checkbox("Duty Failed", ref enableDutyFailed))
                     {
                         Configuration.Instance.EnableDutyFailedEvent = enableDutyFailed;
                         Configuration.Instance.Save();
                     }
-                    
+
                     ImGuiComponents.HelpMarker("Plays on leaving the duty before completion.");
-                    
+
                     bool enablePartyWipe = Configuration.Instance.EnableDutyPartyWipeEvent;
                     if (ImGui.Checkbox("On Party Wipe", ref enablePartyWipe))
                     {
                         Configuration.Instance.EnableDutyPartyWipeEvent = enablePartyWipe;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableBossKillStreaks = Configuration.Instance.EnableBossKillStreaks;
                     if (ImGui.Checkbox("High End Boss Kill Streaks", ref enableBossKillStreaks))
                     {
                         Configuration.Instance.EnableBossKillStreaks = enableBossKillStreaks;
                         Configuration.Instance.Save();
                     }
-                    
+
                     ImGui.Separator();
-                    
+
                     bool enablePlayerDisconnect = Configuration.Instance.EnableDutyPlayerDisconnectedEvent;
                     if (ImGui.Checkbox("On Player Disconnect", ref enablePlayerDisconnect))
                     {
                         Configuration.Instance.EnableDutyPlayerDisconnectedEvent = enablePlayerDisconnect;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enablePlayerReconnect = Configuration.Instance.EnableDutyPlayerReconnectedEvent;
                     if (ImGui.Checkbox("On Player Reconnect", ref enablePlayerReconnect))
                     {
@@ -324,54 +324,52 @@ public class ConfigurationWindow : Window, IDisposable
                 ImGui.PushID("PvP");
                 if (ImGui.CollapsingHeader("PvP"))
                 {
-                    DisabledDueToApiChange("Countdown Start");
-                    // bool enablePvpCountdownEvent = Configuration.Instance.EnablePvpCountdownStartEvent;
-                    // if (ImGui.Checkbox("Countdown Start", ref enablePvpCountdownEvent))
-                    // {
-                    //     Configuration.Instance.EnablePvpCountdownStartEvent = enablePvpCountdownEvent;
-                    //     Configuration.Instance.Save();
-                    // }
+                    bool enablePvpCountdownEvent = Configuration.Instance.EnablePvpCountdownStartEvent;
+                    if (ImGui.Checkbox("Countdown Start", ref enablePvpCountdownEvent))
+                    {
+                        Configuration.Instance.EnablePvpCountdownStartEvent = enablePvpCountdownEvent;
+                        Configuration.Instance.Save();
+                    }
 
-                    DisabledDueToApiChange("10 Seconds Remaining");
-                    // bool enablePvpCountdown10Event = Configuration.Instance.EnablePvpCountdown10Event;
-                    // if (ImGui.Checkbox("10 Seconds Remaining", ref enablePvpCountdown10Event))
-                    // {
-                    //     Configuration.Instance.EnablePvpCountdown10Event = enablePvpCountdown10Event;
-                    //     Configuration.Instance.Save();
-                    // }
-                    
+                    bool enablePvpCountdown10Event = Configuration.Instance.EnablePvpCountdown10Event;
+                    if (ImGui.Checkbox("10 Seconds Remaining", ref enablePvpCountdown10Event))
+                    {
+                        Configuration.Instance.EnablePvpCountdown10Event = enablePvpCountdown10Event;
+                        Configuration.Instance.Save();
+                    }
+
                     ImGui.Separator();
-                    
+
                     bool enableFirstBlood = Configuration.Instance.EnablePvpFirstBloodEvent;
                     if (ImGui.Checkbox("First Blood", ref enableFirstBlood))
                     {
                         Configuration.Instance.EnablePvpFirstBloodEvent = enableFirstBlood;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableKillStreaks = Configuration.Instance.EnablePvpKillStreaksEvent;
                     if (ImGui.Checkbox("Kill Streaks", ref enableKillStreaks))
                     {
                         Configuration.Instance.EnablePvpKillStreaksEvent = enableKillStreaks;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableMultikills = Configuration.Instance.EnablePvpMultikillsEvent;
                     if (ImGui.Checkbox("Multikills", ref enableMultikills))
                     {
                         Configuration.Instance.EnablePvpMultikillsEvent = enableMultikills;
                         Configuration.Instance.Save();
                     }
-                    
+
                     bool enableChat = Configuration.Instance.EnablePvpChatEvent;
                     if (ImGui.Checkbox("Kill Events in Chat", ref enableChat))
                     {
                         Configuration.Instance.EnablePvpChatEvent = enableChat;
                         Configuration.Instance.Save();
                     }
-                    
+
                     ImGui.Separator();
-                    
+
                     bool enablePrepare = Configuration.Instance.EnablePvpPrepareEvent;
                     if (ImGui.Checkbox("Prepare", ref enablePrepare))
                     {
@@ -379,21 +377,19 @@ public class ConfigurationWindow : Window, IDisposable
                         Configuration.Instance.Save();
                     }
 
-                    DisabledDueToApiChange("Win");
-                    // bool enableWin = Configuration.Instance.EnablePvpWinEvent;
-                    // if (ImGui.Checkbox("Win", ref enableWin))
-                    // {
-                    //     Configuration.Instance.EnablePvpWinEvent = enableWin;
-                    //     Configuration.Instance.Save();
-                    // }
+                    bool enableWin = Configuration.Instance.EnablePvpWinEvent;
+                    if (ImGui.Checkbox("Win", ref enableWin))
+                    {
+                        Configuration.Instance.EnablePvpWinEvent = enableWin;
+                        Configuration.Instance.Save();
+                    }
 
-                    DisabledDueToApiChange("Loss");
-                    // bool enableLoss = Configuration.Instance.EnablePvpLossEvent;
-                    // if (ImGui.Checkbox("Loss", ref enableLoss))
-                    // {
-                    //     Configuration.Instance.EnablePvpLossEvent = enableLoss;
-                    //     Configuration.Instance.Save();
-                    // }
+                    bool enableLoss = Configuration.Instance.EnablePvpLossEvent;
+                    if (ImGui.Checkbox("Loss", ref enableLoss))
+                    {
+                        Configuration.Instance.EnablePvpLossEvent = enableLoss;
+                        Configuration.Instance.Save();
+                    }
                 }
                 ImGui.PopID();
 
@@ -403,20 +399,20 @@ public class ConfigurationWindow : Window, IDisposable
             if (ImGui.BeginTabItem("Assets"))
             {
                 ImGui.PushID("Assets");
-                
+
                 string configDir = DalamudService.PluginInterface.GetPluginConfigDirectory();
                 string baseAssetsDir = $"{configDir}/assets";
 
                 bool mp3AssetsDownloaded = Directory.Exists($"{baseAssetsDir}-mp3");
                 bool oggAssetsDownloaded = Directory.Exists($"{baseAssetsDir}-ogg");
-                
+
                 List<string> assetsDownloaded = new();
                 if (mp3AssetsDownloaded) assetsDownloaded.Add("mp3");
                 if (oggAssetsDownloaded) assetsDownloaded.Add("ogg");
 
                 ImGui.Text("Asset file type");
                 ImGuiComponents.HelpMarker("OGG files are smaller, but may fail to play on systems missing codecs.");
-                
+
                 int assetsFileType = (int)Configuration.Instance.AssetsFileType;
                 string[] assetsFileTypeOptions =
                 {
@@ -424,7 +420,7 @@ public class ConfigurationWindow : Window, IDisposable
                     "OGG"
                 };
 
-                if (ImGui.Combo("##AssetsFileType", ref assetsFileType, assetsFileTypeOptions, 
+                if (ImGui.Combo("##AssetsFileType", ref assetsFileType, assetsFileTypeOptions,
                         assetsFileTypeOptions.Length))
                 {
                     Configuration.Instance.AssetsFileType = (AssetsFileType)assetsFileType;
@@ -436,16 +432,16 @@ public class ConfigurationWindow : Window, IDisposable
                         Plugin.UpdateVoiceLines();
                     }
                 }
-                
+
                 ImGui.Text($"Assets currently downloaded: {string.Join(", ", assetsDownloaded)}");
-                
+
                 ImGui.Separator();
-                
+
                 if (!AssetsManager.HasEnoughFreeDiskSpace)
                 {
                     long diskSpaceRequired = AssetsManager.GetRequiredDiskSpace();
                     long diskSpaceRequiredMb = diskSpaceRequired / 1024 / 1024;
-                    
+
                     ImGui.Text($"\nUnable to download voice lines!\n\n{diskSpaceRequiredMb}MB of free disk space is required.\nPlease clear some space and try again.\n\n");
 
                     if (ImGui.Button("Download voice lines"))
@@ -461,15 +457,15 @@ public class ConfigurationWindow : Window, IDisposable
                         buttonText = "Voice lines are currently downloading, please wait...";
                         ImGui.PushStyleVar(ImGuiStyleVar.Alpha, ImGui.GetStyle().Alpha * 0.5f);
                     }
-                    
+
                     if (ImGui.Button(buttonText))
                     {
                         if (!AssetsManager.IsUpdating) Plugin.UpdateVoiceLines(true);
                     }
-                    
+
                     if (AssetsManager.IsUpdating) ImGui.PopStyleVar();
                 }
-                
+
                 if (!mp3AssetsDownloaded) ImGui.PushStyleVar(ImGuiStyleVar.Alpha, ImGui.GetStyle().Alpha * 0.5f);
                 if (ImGui.Button("Delete MP3 assets"))
                 {
@@ -479,7 +475,7 @@ public class ConfigurationWindow : Window, IDisposable
                     }
                 }
                 if (!mp3AssetsDownloaded) ImGui.PopStyleVar();
-                
+
                 if (!oggAssetsDownloaded) ImGui.PushStyleVar(ImGuiStyleVar.Alpha, ImGui.GetStyle().Alpha * 0.5f);
                 if (ImGui.Button("Delete OGG assets"))
                 {
@@ -489,12 +485,12 @@ public class ConfigurationWindow : Window, IDisposable
                     }
                 }
                 if (!oggAssetsDownloaded) ImGui.PopStyleVar();
-                
+
                 ImGui.Separator();
 
                 ImGui.Text($"Required assets version: {AssetsManager.RequiredAssetsVersion}");
                 ImGui.Text($"Current assets version: {AssetsManager.CurrentAssetsVersion}");
-                
+
                 ImGui.PopID();
 
                 ImGui.EndTabItem();
@@ -529,17 +525,7 @@ public class ConfigurationWindow : Window, IDisposable
                 ImGui.EndTabItem();
             }
         }
-        
+
         ImGui.EndTabBar();
-    }
-
-    private void DisabledDueToApiChange(string configName)
-    {
-        ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 0.5f);
-        bool configOption = false;
-        ImGui.Checkbox(configName, ref configOption);
-        ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 1.0f);
-
-        if (ImGui.IsItemHovered()) ImGui.SetTooltip("Disabled due to API change");
     }
 }
