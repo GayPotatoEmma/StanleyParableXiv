@@ -26,17 +26,17 @@ public class DebugEvent : IDisposable
     public DebugEvent()
     {
         DalamudService.Framework.Update += OnFrameworkUpdate;
-         DalamudService.Framework.RunOnFrameworkThread(() =>
-         {
-            DalamudService.GameInteropProvider.InitializeFromAttributes(this);
-            _contentDirectorNetworkMessageHook?.Enable();
-         });
+        // DalamudService.Framework.RunOnFrameworkThread(() =>
+        // {
+        //    DalamudService.GameInteropProvider.InitializeFromAttributes(this);
+        //    _contentDirectorNetworkMessageHook?.Enable();
+        // });
     }
 
     public void Dispose()
     {
         DalamudService.Framework.Update -= OnFrameworkUpdate;
-         _contentDirectorNetworkMessageHook?.Dispose();
+        // _contentDirectorNetworkMessageHook?.Dispose();
 
         GC.SuppressFinalize(this);
     }

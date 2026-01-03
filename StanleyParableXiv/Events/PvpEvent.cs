@@ -367,7 +367,7 @@ public class PvpEvent : IDisposable
 
                     break;
                 // PvP win
-                case 0x354 when updateType == 0x5030101:
+                case 0x355 when updateType == 0x1F4:
                     if (Configuration.Instance.EnablePvpWinEvent)
                     {
                         Task.Delay(3_000).ContinueWith(_ =>
@@ -378,7 +378,7 @@ public class PvpEvent : IDisposable
 
                     break;
                 // PvP loss
-                case 0x354 when updateType == 0x4030101:
+                case 0x355 when updateType == 0xFA:
                     if (Configuration.Instance.EnablePvpLossEvent)
                     {
                         Task.Delay(3_000).ContinueWith(_ =>

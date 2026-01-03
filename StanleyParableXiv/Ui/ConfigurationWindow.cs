@@ -377,19 +377,21 @@ public class ConfigurationWindow : Window, IDisposable
                         Configuration.Instance.Save();
                     }
 
-                    bool enableWin = Configuration.Instance.EnablePvpWinEvent;
-                    if (ImGui.Checkbox("Win", ref enableWin))
-                    {
-                        Configuration.Instance.EnablePvpWinEvent = enableWin;
-                        Configuration.Instance.Save();
-                    }
+                    DisabledDueToApiChange("Win");
+                    //bool enableWin = Configuration.Instance.EnablePvpWinEvent;
+                    //if (ImGui.Checkbox("Win", ref enableWin))
+                    //{
+                    //    Configuration.Instance.EnablePvpWinEvent = enableWin;
+                    //    Configuration.Instance.Save();
+                    //}
 
-                    bool enableLoss = Configuration.Instance.EnablePvpLossEvent;
-                    if (ImGui.Checkbox("Loss", ref enableLoss))
-                    {
-                        Configuration.Instance.EnablePvpLossEvent = enableLoss;
-                        Configuration.Instance.Save();
-                    }
+                    DisabledDueToApiChange("Loss");
+                    //bool enableLoss = Configuration.Instance.EnablePvpLossEvent;
+                    //if (ImGui.Checkbox("Loss", ref enableLoss))
+                    //{
+                    //    Configuration.Instance.EnablePvpLossEvent = enableLoss;
+                    //    Configuration.Instance.Save();
+                    //}
                 }
                 ImGui.PopID();
 
@@ -527,5 +529,15 @@ public class ConfigurationWindow : Window, IDisposable
         }
 
         ImGui.EndTabBar();
+    }
+
+    private void DisabledDueToApiChange(string configName)
+    {
+        ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 0.5f);
+        bool configOption = false;
+        ImGui.Checkbox(configName, ref configOption);
+        ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 1.0f);
+
+        if (ImGui.IsItemHovered()) ImGui.SetTooltip("Disabled due to API change");
     }
 }
