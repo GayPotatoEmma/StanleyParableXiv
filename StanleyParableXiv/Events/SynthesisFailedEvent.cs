@@ -1,5 +1,5 @@
 using System;
-using Dalamud.Game.Text;
+using Dalamud.Game.Chat;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Utility;
 using Lumina.Excel.Sheets;
@@ -29,11 +29,11 @@ public class SynthesisFailedEvent : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    private void OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool ishandled)
+    private void OnChatMessage(IHandleableChatMessage chatMessage)
     {
         if (string.IsNullOrEmpty(_synthesisFailedMessage)) return;
 
-        if (message.TextValue.Contains(_synthesisFailedMessage) && Configuration.Instance.EnableSynthesisFailedEvent)
+        if (chatMessage.Message.TextValue.Contains(_synthesisFailedMessage) && Configuration.Instance.EnableSynthesisFailedEvent)
         {
             AudioService.Instance.PlayRandomSoundFromCategory(AudioEvent.Failure);
         }

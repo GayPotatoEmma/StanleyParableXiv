@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Party;
+using Dalamud.Game.DutyState;
 using Dalamud.Plugin.Services;
 using Lumina.Excel.Sheets;
 using StanleyParableXiv.Services;
@@ -64,7 +65,7 @@ public class DutyEvent : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    private void OnDutyStarted(object? sender, ushort e)
+    private void OnDutyStarted(IDutyStateEventArgs args)
     {
         if (DalamudService.ClientState.IsPvPExcludingDen) return;
         if (!TerritoryIsValidDuty()) return;
@@ -78,7 +79,7 @@ public class DutyEvent : IDisposable
         AudioService.Instance.PlayRandomSoundFromCategory(AudioEvent.EncounterStart);
     }
 
-    private static void OnDutyWiped(object? sender, ushort e)
+    private static void OnDutyWiped(IDutyStateEventArgs args)
     {
         DalamudService.Log.Debug("Duty wiped");
         
@@ -90,7 +91,7 @@ public class DutyEvent : IDisposable
         });
     }
 
-    private void OnDutyCompleted(object? sender, ushort e)
+    private void OnDutyCompleted(IDutyStateEventArgs args)
     {
         if (DalamudService.ClientState.IsPvPExcludingDen) return;
 

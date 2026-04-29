@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Game.Chat;
 using Dalamud.Game.ClientState.Objects.SubKinds;
-using Dalamud.Game.Network;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
+using Dalamud.Plugin.Services;
 using Dalamud.Utility.Signatures;
 using Lumina.Excel.Sheets;
 using StanleyParableXiv.Services;
@@ -95,13 +95,13 @@ public class PvpEvent : IDisposable
         ResetPvp();
     }
 
-    private void OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled)
+    private void OnChatMessage(IHandleableChatMessage chatMessage)
     {
         if (!DalamudService.ClientState.IsPvPExcludingDen) return;
-        if (type is not ((XivChatType)4922 or (XivChatType)2874)) return;
-        DalamudService.Log.Verbose("[{Type}] {Message}", type, message);
+        if (chatMessage.LogKind != (XivChatType)58) return;
+        DalamudService.Log.Verbose("[{LogKind}] [{TargetKind}] {Message}", chatMessage.LogKind, chatMessage.TargetKind, chatMessage.Message);
 
-        PlayerPayload?[] playerPayloads = message.Payloads
+        PlayerPayload?[] playerPayloads = chatMessage.Message.Payloads
             .Where(x => x.Type == PayloadType.Player)
             .Select(x => x as PlayerPayload)
             .ToArray();
@@ -114,9 +114,9 @@ public class PvpEvent : IDisposable
         string? killerName = null;
         string? killedName = null;
 
-        switch (type)
+        switch (chatMessage.TargetKind)
         {
-            case (XivChatType)4922 when playerPayloads.Length == 2:
+            case (XivChatRelationKind)2 when playerPayloads.Length == 2:
             {
                 PlayerPayload? player1 = playerPayloads[0];
                 PlayerPayload? player2 = playerPayloads[1];
@@ -155,7 +155,7 @@ public class PvpEvent : IDisposable
 
                 break;
             }
-            case (XivChatType)2874 when playerPayloads.Length == 1:
+            case (XivChatRelationKind)1 when playerPayloads.Length == 1:
             {
                 PlayerPayload? otherPlayer = playerPayloads[0];
                 IPlayerCharacter? localPlayer = DalamudService.ObjectTable.LocalPlayer;
@@ -165,7 +165,6 @@ public class PvpEvent : IDisposable
                 string? otherPlayerName = XivUtility.GetFullPlayerName(otherPlayer);
                 string? localPlayerName = XivUtility.GetFullPlayerName(localPlayer);
 
-                // Determine who killed who depending on if you died or not.
                 if (localPlayer.IsDead)
                 {
                     killerName = otherPlayerName;

@@ -104,7 +104,7 @@ public static unsafe class XivUtility
     /// </summary>
     /// <param name="territoryType">The territory to check against.</param>
     /// <returns>True if high-end, false otherwise.</returns>
-    public static bool TerritoryIsHighEndDuty(ushort territoryType)
+    public static bool TerritoryIsHighEndDuty(uint territoryType)
     {
         bool territoryExists = DalamudService.DataManager.Excel
             .GetSheet<TerritoryType>(Language.English)
