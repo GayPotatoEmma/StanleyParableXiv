@@ -30,18 +30,18 @@ public class TerritoryService : IDisposable
 
     private void OnFrameworkUpdate(IFramework framework)
     {
-        if (_currentTerritoryRowId == DalamudService.ClientState.TerritoryType) return;
-
-        DalamudService.Log.Debug("Territory changed: {LastTerritory} -> {NewTerritory}",
-            _currentTerritoryRowId ?? 0, DalamudService.ClientState.TerritoryType);
+        uint newTerritoryId = DalamudService.ClientState.TerritoryType;
+        if (_currentTerritoryRowId == newTerritoryId) return;
 
         bool currentTerritoryExists = DalamudService.DataManager.Excel
             .GetSheet<TerritoryType>()
-            .TryGetRow(DalamudService.ClientState.TerritoryType, out TerritoryType nextTerritory);
-        if (!currentTerritoryExists) return;
+            .TryGetRow(newTerritoryId, out TerritoryType nextTerritory);
 
-        CurrentTerritory = nextTerritory;
-        _currentTerritoryRowId = DalamudService.ClientState.TerritoryType;
+        DalamudService.Log.Debug("Territory changed: {LastTerritory} -> {NewTerritory}",
+            _currentTerritoryRowId ?? 0, newTerritoryId);
+
+        _currentTerritoryRowId = newTerritoryId;
+        CurrentTerritory = currentTerritoryExists ? nextTerritory : null;
 
         TerritoryChanged?.Invoke(CurrentTerritory);
     }
